@@ -66,6 +66,10 @@
       },
       methods: {
         submit() {
+          if (!this.data.productId || !this.data.deviceName || !this.data.deviceSecret) {
+            alert("请输入完整信息")
+            return
+          }
           this.data.result = this.iotHmac(this.data.productId, this.data.deviceName, this.data.deviceSecret)
         },
         // 生成接入物联网通信平台需要的各参数
