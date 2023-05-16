@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.4.1/css/all.css"
     crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
-  <title>Your Name</title>
+  <title>腾讯云物联网MQTT配置生成工具</title>
 </head>
 
 <body>
@@ -23,11 +23,13 @@
         <input type="text" v-model="data[input.name]" :placeholder="input.placeholder"><br>
       </div>
       <button @click="submit">确定</button>
-      <h2>clientId:</h2>
+      <h2>MQTT Host & Port:</h2>
+      <p>{{data.result.host}}</p>
+      <h2>MQTT Client Id:</h2>
       <p>{{data.result.clientId}}</p>
-      <h2>userName:</h2>
+      <h2>MQTT Username:</h2>
       <p>{{data.result.userName}}</p>
-      <h2>password:</h2>
+      <h2>MQTT Password:</h2>
       <p>{{data.result.password}}</p>
     </div>
 
@@ -70,10 +72,10 @@
             alert("请输入完整信息")
             return
           }
-          this.data.result = this.iotHmac(this.data.productId, this.data.deviceName, this.data.deviceSecret)
+          this.data.result = this.mqttConfig(this.data.productId, this.data.deviceName, this.data.deviceSecret)
         },
         // 生成接入物联网通信平台需要的各参数
-        iotHmac(productId, deviceName, devicePsk) {
+        mqttConfig(productId, deviceName, devicePsk) {
           // 产生随机数的函数
           const randomString = (len) => {
             len = len || 32;
@@ -101,7 +103,8 @@
           const result = {
             "clientId": clientId,
             "userName": userName,
-            "password": password
+            "password": password,
+            "host": `${productId}.iotcloud.tencentdevices.com:1883`
           }
           console.log(`userName:${userName}\npassword:${password}`);
           return result;
